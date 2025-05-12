@@ -12,6 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.lab09.ui.theme.Lab09Theme
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,8 +22,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             Lab09Theme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
+                    ProgPrincipal9(
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -31,17 +32,15 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+fun ProgPrincipal9(modifier: Modifier) {
+    val urlBase = "https://json-placeholder.mock.beeceptor.com/"
+    val retrofit = Retrofit.Builder().baseUrl(urlBase)
+        .addConverterFactory(GsonConverterFactory.create()).build()
+    val navController = rememberNavController()
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    Lab09Theme {
-        Greeting("Android")
-    }
+    Scaffold(
+        topBar =    { BarraSuperior() },
+        bottomBar = { BarraInferior(navController) },
+        content =   { paddingValues -> Contenido(paddingValues, navController, servicio) }
+    )
 }
