@@ -24,12 +24,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+
 import androidx.navigation.navArgument
 import com.example.lab09.ui.theme.Lab09Theme
 import retrofit2.Retrofit
@@ -56,15 +56,16 @@ fun ProgPrincipal9(modifier: Modifier) {
     val urlBase = "https://json-placeholder.mock.beeceptor.com/"
     val retrofit = Retrofit.Builder().baseUrl(urlBase)
         .addConverterFactory(GsonConverterFactory.create()).build()
-    val servicio = retrofit.create(PostApiService::class.java)
     val navController = rememberNavController()
-
+    val servicio = retrofit.create(PostApiService::class.java)
     Scaffold(
         topBar =    { BarraSuperior() },
         bottomBar = { BarraInferior(navController) },
         content =   { paddingValues -> Contenido(paddingValues, navController, servicio) }
     )
 }
+
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BarraSuperior() {
